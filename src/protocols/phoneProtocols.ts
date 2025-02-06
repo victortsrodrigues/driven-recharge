@@ -22,3 +22,13 @@ export type Carrier = {
 };
 
 export type CustomError = Error & { type?: string };
+
+export type BodyRecharge = {
+  number: string;
+  value: number;
+};
+
+export type Recharge = Omit<BodyRecharge, "number"> & {
+  id: number;
+  phone_id: number;
+};
