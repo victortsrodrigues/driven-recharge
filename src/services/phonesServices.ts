@@ -21,7 +21,8 @@ async function createPhone(body: BodyPhone) {
   // CPF not registred yet
   if (clientExists.rowCount === 0) {
     const { id } = await phonesRepository.createClient(body);
-    await phonesRepository.createPhone(id, body, carrier_id);
+    const phonesCreated = await phonesRepository.createPhone(id, body, carrier_id);
+    return phonesCreated;
   } else {
     // CPF already registred
     // Check how many numbers the CPF already has
@@ -30,7 +31,8 @@ async function createPhone(body: BodyPhone) {
     if (phonesExistingClient.rowCount >= 3)
       throw conflictError("All possible phones");
 
-    await phonesRepository.createPhone(id, body, carrier_id);
+    const phonesCreated = await phonesRepository.createPhone(id, body, carrier_id);
+    return phonesCreated;
   }
 }
 

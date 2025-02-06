@@ -15,11 +15,14 @@ async function createPhone(id: number, body: BodyPhone, carrier_id: number) {
   const { description, name, numbers } = body;
   const phonePromises = numbers.map((number) => {
     return db.query<Phone>(
-      `INSERT INTO phones (client_id, carrier_id, name, description, number) VALUES ($1, $2, $3, $4, $5)`,
+      `INSERT INTO phones (client_id, carrier_id, name, description, number) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [id, carrier_id, name, description, number]
     );
   });
-  await Promise.all(phonePromises);
+  const result = await Promise.all(phonePromises);
+  const phonesCreated = result.map((phone) => phone.rows[0]);
+  console.log(phonesCreated);
+  return phonesCreated;
 }
 
 async function searchClientByCPF(cpf: string) {
