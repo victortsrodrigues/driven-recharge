@@ -11,7 +11,7 @@ async function createRecharge(body: BodyRecharge) {
   return rechargeCreated;
 }
 
-async function getRechargesByNumber(number:string) {
+async function getRechargesByNumber(number: string) {
   const numberExists = await rechargeRepository.searchPhoneByNumber(number);
   if (numberExists.rowCount === 0) throw notFoundError("Phone number");
   const { id } = numberExists.rows[0];

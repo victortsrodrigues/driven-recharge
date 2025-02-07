@@ -1,6 +1,8 @@
+import summaryController from "../controllers/summaryController";
 import { Router } from "express";
-import { getDefaultHighWaterMark } from "stream";
 
 const summaryRouter = Router();
+
+summaryRouter.get("/summary/:document", summaryController.getSummary);
 
 export default summaryRouter;

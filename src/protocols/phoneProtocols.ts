@@ -11,8 +11,10 @@ export type Client = {
   cpf: string;
 };
 
-export type Phone = Omit<BodyPhone, "cpf"> & {
+export type Phone = Omit<BodyPhone, "cpf" | "carrier"> & {
   id: number;
+  client_id: number;
+  carrier_id: number;
 };
 
 export type Carrier = {
@@ -31,4 +33,15 @@ export type BodyRecharge = {
 export type Recharge = Omit<BodyRecharge, "number"> & {
   id: number;
   phone_id: number;
+};
+
+export type PhoneData = {
+  number: Phone;
+  carrier: Carrier;
+  recharges: Recharge[];
+};
+
+export type Summary = {
+  document: string;
+  phones: PhoneData[];
 };

@@ -21,7 +21,6 @@ async function createPhone(id: number, body: BodyPhone, carrier_id: number) {
   });
   const result = await Promise.all(phonePromises);
   const phonesCreated = result.map((phone) => phone.rows[0]);
-  console.log(phonesCreated);
   return phonesCreated;
 }
 
@@ -34,7 +33,7 @@ async function searchClientByCPF(cpf: string) {
 }
 
 async function searchPhonesByClientId(id: number) {
-  const clientPhones = await db.query<Client>(
+  const clientPhones = await db.query<Phone>(
     `SELECT * FROM phones WHERE client_id=$1;`,
     [id]
   );
@@ -49,7 +48,7 @@ async function searchCarrierByCode(carrier: number) {
   return carrierExists;
 }
 
-async function searchPhoneByNumber(numbers:string[]) {
+async function searchPhoneByNumber(numbers: string[]) {
   const phonePromises = numbers.map((number) => {
     return db.query<Phone>(`SELECT * FROM phones WHERE number=$1;`, [number]);
   });
@@ -63,7 +62,7 @@ const phonesRepository = {
   searchClientByCPF,
   createClient,
   createPhone,
-  searchPhonesByClientId
+  searchPhonesByClientId,
 };
 
 export default phonesRepository;
